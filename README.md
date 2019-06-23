@@ -197,20 +197,20 @@ The site microservice will start on port `8082`, So you'll be able to visit the 
 
 The organization microservice will start on port `8083`, So you'll be able to visit the organization microservice under address `http://localhost:8083`. 
 
-	+ View info about `API Gateway` service 
-		* http://localhost:8081/actuator/info
-		* http://localhost:8082/actuator/info
-		* http://localhost:8083/actuator/info
++ View info about microservices (Site, User and Organization)
+	* http://localhost:8081/actuator/info
+	* http://localhost:8082/actuator/info
+	* http://localhost:8083/actuator/info
+
++ Check Health for every microservice
+	* http://localhost:8081/actuator/health
+	* http://localhost:8082/actuator/health
+	* http://localhost:8083/actuator/health
 	
-	+ Check Health for `API Gateway` service
-		* http://localhost:8081/actuator/health
-		* http://localhost:8082/actuator/health
-		* http://localhost:8083/actuator/health
-		
-	+ Access User/Site/Organization services APIs:
-	* `user-service`: http://localhost:8081/api/users
-	* `site-service`: http://localhost:8081/api/sites
-	* `organization-service`: http://localhost:8081/api/organizations
++ Access services' APIs:
+	* http://localhost:8081/api/users
+	* http://localhost:8081/api/sites
+	* http://localhost:8081/api/organizations
 
 ## Sample Requests
 CURL GET command samples for different (User, Site, Organization) microservices:
