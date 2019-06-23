@@ -44,82 +44,84 @@ The steps to be taken in order to create working microservices-based system usin
 	
 **Step 1.** Building the *microservices* using Spring Boot and communication between them by RestTemplate:
 
- 	+ [User microservice](user-service)
- 	+ [Site microservice](site-service)
- 	+ [Organization microservice](organization-service)
++ [User microservice](user-service)
++ [Site microservice](site-service)
++ [Organization microservice](organization-service)
 
 **Step 2.** Creating the *Dockerfile* for each service. Docker file is a list of commands that we want the docker engine to execute. 
 
 Go to the directory for each spring boot project and create a Dockerfile:
-	+ User microservice [Dockerfile](user-service/Dockerfile)
-	+ Site microservice [Dockerfile](site-service/Dockerfile)
-	+ Organization microservice [Dockerfile](organization-service/Dockerfile)
+
++ User microservice [Dockerfile](user-service/Dockerfile)
++ Site microservice [Dockerfile](site-service/Dockerfile)
++ Organization microservice [Dockerfile](organization-service/Dockerfile)
 
 For example Dockerfile for User service:
 
-	```bash
-		From openjdk:8
-		copy ./target/users-service-0.0.1-SNAPSHOT.jar user-service.jar
-		CMD ["java","-jar","user-service.jar"]
-	```
+```bash
+	From openjdk:8
+	copy ./target/users-service-0.0.1-SNAPSHOT.jar user-service.jar
+	CMD ["java","-jar","user-service.jar"]
+```
 
 **Step 3.** Creating [docker-compose.yml](docker-compose.yml) as follows:
 
-	```bash
-		version: "3"
-		services:
-		  organization:
-		    build: ./organization-service
-		    ports:
-		      - "8083:8083"
-		    networks:
-		      - organization-mysql
-		      - organization-user
-		      - organization-site
-		    depends_on:
-		      - mysqldb
-		      - user
-		      - site
-		
-		  site:
-		    build: ./site-service
-		    ports:
-		      - "8082:8082"
-		    networks:
-		      - organization-mysql
-		      - site-user
-		      - organization-site
-		    depends_on:
-		      - mysqldb
-		      - user
-		 
-		  user:
-		    build: ./user-service
-		    ports:
-		      - "8081:8081"
-		    networks:
-		      - site-user
-		      - organization-user
-		      - organization-mysql
-		    depends_on:
-		      - mysqldb
-		
-		  mysqldb:
-		    image: mysql:8
-		    networks:
-		      - organization-mysql
-		    environment:
-		      - MYSQL_ROOT_PASSWORD=root
-		      - MYSQL_DATABASE=organizationdb
-		
-		networks:
-		  organization-mysql:
-		  site-user:
-		  organization-user:
-		  organization-site:
-	```
+```bash
+	version: "3"
+	services:
+	  organization:
+	    build: ./organization-service
+	    ports:
+	      - "8083:8083"
+	    networks:
+	      - organization-mysql
+	      - organization-user
+	      - organization-site
+	    depends_on:
+	      - mysqldb
+	      - user
+	      - site
+	
+	  site:
+	    build: ./site-service
+	    ports:
+	      - "8082:8082"
+	    networks:
+	      - organization-mysql
+	      - site-user
+	      - organization-site
+	    depends_on:
+	      - mysqldb
+	      - user
+	 
+	  user:
+	    build: ./user-service
+	    ports:
+	      - "8081:8081"
+	    networks:
+	      - site-user
+	      - organization-user
+	      - organization-mysql
+	    depends_on:
+	      - mysqldb
+	
+	  mysqldb:
+	    image: mysql:8
+	    networks:
+	      - organization-mysql
+	    environment:
+	      - MYSQL_ROOT_PASSWORD=root
+	      - MYSQL_DATABASE=organizationdb
+	
+	networks:
+	  organization-mysql:
+	  site-user:
+	  organization-user:
+	  organization-site:
+```
 **Step 4.** Running and testing applications: 
-		Run docker-compose up and Compose starts and runs your entire services.
+
+Run docker-compose up and Compose starts and runs your entire services.
  
 ### Setup
 To run this project, install it locally as follow:
@@ -135,8 +137,8 @@ To run this project, install it locally as follow:
 	Run maven command - *clean install*, and a jar file gets created in the target directory for each service like so:
 
 	```bash
-		cd service_directory
-		maven clean install
+	cd service_directory
+	maven clean install
 	```	
 	+ *service_directory*: the directory of the service (user-service, site-service and organization-service).	
 
@@ -145,10 +147,10 @@ To run this project, install it locally as follow:
 	The project includes a [*docker-compose.yml*](docker-compose.yml)  file so you can Run *docker-compose up* to start entire services, no installation needed.
 
 	```bash
-		cd solution_directory
-		docker-compose up -d
+	cd solution_directory
+	docker-compose up -d
 	```
-	We can see that - 
+	You can see - 
 	- Building an image from Dockerfile for each service and image for MySql database If it does not exist.
 	- Building containers (user, site, organization, and mysql) using the images.
 	- Starting the services (user, site, organization, and MySql).
@@ -158,10 +160,10 @@ To run this project, install it locally as follow:
 	Use the following command to check the created images:
 
 	```bash
-		docker images
+	docker images
 	```
 	
-		You should find the created images like in the next figure:
+	You should find the created images like in the next figure:
 	![created images](images/docker-images.png)	
 
 5. **Check the created containers**
@@ -169,10 +171,10 @@ To run this project, install it locally as follow:
 	Use the following command to check the created containers:
 
 	```bash
-		docker ps -a
+	docker ps -a
 	```
 
-		You should see the results like the next:
+	You should see the results like the next:
 	![User, Site, Organization, and MySql are UP and RUNNING](images/docker-ps-a.png)		
 		
 6. **Check the logs**
@@ -180,7 +182,7 @@ To run this project, install it locally as follow:
 	Use the following command to check the logs for each container:
 
 	```bash
-		docker container logs CONTAINER_ID
+	docker container logs CONTAINER_ID
 	```
 	
 ### Running
@@ -189,11 +191,11 @@ To access the services use the following endpoints
 
 **Run the User/Site/Organization microservices**
 	
-	The user microservice will start on port `8081`, So you'll be able to visit the user microservice under address `http://localhost:8081`. 
+The user microservice will start on port `8081`, So you'll be able to visit the user microservice under address `http://localhost:8081`. 
 	
-	The site microservice will start on port `8082`, So you'll be able to visit the site microservice under address `http://localhost:8082`.
+The site microservice will start on port `8082`, So you'll be able to visit the site microservice under address `http://localhost:8082`.
 
-	The organization microservice will start on port `8083`, So you'll be able to visit the organization microservice under address `http://localhost:8083`. 
+The organization microservice will start on port `8083`, So you'll be able to visit the organization microservice under address `http://localhost:8083`. 
 
 	+ View info about `API Gateway` service 
 		* http://localhost:8081/actuator/info
@@ -217,37 +219,37 @@ CURL GET command samples for different (User, Site, Organization) microservices:
 * Display info about User microservice
 	
 	```bash
-		curl -X GET 	'http://localhost:8081/actuator/info' 
+	curl -X GET 'http://localhost:8081/actuator/info' 
 	```
 	
 * Check Health for User microservice
 
 	```bash
-		curl -X GET 'http://localhost:8081/actuator/health'
+	curl -X GET 'http://localhost:8081/actuator/health'
 	```
 	
 * List all users
 	
 	```bash
-		curl -X GET 'http://localhost:8081/api/users'
+	curl -X GET 'http://localhost:8081/api/users'
 	```
 
 * Find user by Id
 
 	```bash
-		curl -X GET 	'http://localhost:8081/api/users/1'
+	curl -X GET 	'http://localhost:8081/api/users/1'
 	```
 	
 * Filter users by SiteId
 
 	```bash
-		curl -X GET 	'http://localhost:8081/api/users/site/3'
+	curl -X GET 	'http://localhost:8081/api/users/site/3'
 	```
 	
 * Filter users by OrganizationId
 
 	```bash
-		curl -X GET 	'http://localhost:8081/api/users/organization/1'
+	curl -X GET 	'http://localhost:8081/api/users/organization/1'
 	```
 
 ### Site APIs
@@ -255,37 +257,37 @@ CURL GET command samples for different (User, Site, Organization) microservices:
 * Display info about Site microservice
 	
 	```bash
-		curl -X GET 	'http://localhost:8082/actuator/info'
+	curl -X GET 	'http://localhost:8082/actuator/info'
 	```
 	
 * Check Health for Site microservice
 
 	```bash
-		curl -X GET 	'http://localhost:8082/actuator/health'
+	curl -X GET 	'http://localhost:8082/actuator/health'
 	```
 	
 * List all sites
 	
 	```bash
-		curl -X GET 'http://localhost:8082/api/sites'
+	curl -X GET 'http://localhost:8082/api/sites'
 	```
 
 * Find site by Id
 
 	```bash
-		curl -X GET 'http://localhost:8082/api/sites/1'
+	curl -X GET 'http://localhost:8082/api/sites/1'
 	```
 	
 * Filter sites by OrganizationId
 
 	```bash
-		curl -X GET 	'http://localhost:8082/api/sites/organization/1'
+	curl -X GET 	'http://localhost:8082/api/sites/organization/1'
 	```
 	
 * Filter sites with users by OrganizationId
 
 	```bash
-		curl -X GET 'http://localhost:8082/api/sites/organization/1/with-users'
+	curl -X GET 'http://localhost:8082/api/sites/organization/1/with-users'
 	```
 
 ### Organization APIs
@@ -293,19 +295,19 @@ CURL GET command samples for different (User, Site, Organization) microservices:
 * Display info about Organization microservice
 	
 	```bash
-		curl -X GET 'http://localhost:8083/actuator/info'
+	curl -X GET 'http://localhost:8083/actuator/info'
 	```
 	
 * Check Health for Organization microservice
 
 	```bash
-		curl -X GET 'http://localhost:8083/actuator/health'
+	curl -X GET 'http://localhost:8083/actuator/health'
 	```
 	
 * List all organizations
 	
 	```bash
-		curl -X GET 'http://localhost:8083/api/organizations'
+	curl -X GET 'http://localhost:8083/api/organizations'
 	```
 
 * Find organization by Id
