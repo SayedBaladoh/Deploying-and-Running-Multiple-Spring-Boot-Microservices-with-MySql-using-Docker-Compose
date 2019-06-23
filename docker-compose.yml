@@ -1,0 +1,54 @@
+version: "3"
+services:
+  organization:
+#    image: organization-service
+    build: ./organization-service
+    ports:
+      - "8083:8083"
+    networks:
+      - organization-mysql
+      - organization-user
+      - organization-site
+    depends_on:
+      - mysqldb
+      - user
+      - site
+
+  site:
+#    image: site-service
+    build: ./site-service
+    ports:
+      - "8082:8082"
+    networks:
+      - organization-mysql
+      - site-user
+      - organization-site
+    depends_on:
+      - mysqldb
+      - user
+ 
+  user:
+#    image: user-service
+    build: ./user-service
+    ports:
+      - "8081:8081"
+    networks:
+      - site-user
+      - organization-user
+      - organization-mysql
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:8
+    networks:
+      - organization-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=organizationdb
+
+networks:
+  organization-mysql:
+  site-user:
+  organization-user:
+  organization-site:
