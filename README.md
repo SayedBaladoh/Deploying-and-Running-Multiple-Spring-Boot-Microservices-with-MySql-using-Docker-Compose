@@ -59,65 +59,65 @@ Go to the directory for each spring boot project and create a Dockerfile:
 For example Dockerfile for User service:
 
 ```bash
-	From openjdk:8
-	copy ./target/users-service-0.0.1-SNAPSHOT.jar user-service.jar
-	CMD ["java","-jar","user-service.jar"]
+From openjdk:8
+copy ./target/users-service-0.0.1-SNAPSHOT.jar user-service.jar
+CMD ["java","-jar","user-service.jar"]
 ```
 
 **Step 3.** Creating [docker-compose.yml](docker-compose.yml) as follows:
 
 ```bash
-	version: "3"
-	services:
-	  organization:
-	    build: ./organization-service
-	    ports:
-	      - "8083:8083"
-	    networks:
-	      - organization-mysql
-	      - organization-user
-	      - organization-site
-	    depends_on:
-	      - mysqldb
-	      - user
-	      - site
-	
-	  site:
-	    build: ./site-service
-	    ports:
-	      - "8082:8082"
-	    networks:
-	      - organization-mysql
-	      - site-user
-	      - organization-site
-	    depends_on:
-	      - mysqldb
-	      - user
-	 
-	  user:
-	    build: ./user-service
-	    ports:
-	      - "8081:8081"
-	    networks:
-	      - site-user
-	      - organization-user
-	      - organization-mysql
-	    depends_on:
-	      - mysqldb
-	
-	  mysqldb:
-	    image: mysql:8
-	    networks:
-	      - organization-mysql
-	    environment:
-	      - MYSQL_ROOT_PASSWORD=root
-	      - MYSQL_DATABASE=organizationdb
-	
-	networks:
-	  organization-mysql:
-	  site-user:
-	  organization-user:
-	  organization-site:
+version: "3"
+services:
+  organization:
+    build: ./organization-service
+    ports:
+      - "8083:8083"
+    networks:
+      - organization-mysql
+      - organization-user
+      - organization-site
+    depends_on:
+      - mysqldb
+      - user
+      - site
+
+  site:
+    build: ./site-service
+    ports:
+      - "8082:8082"
+    networks:
+      - organization-mysql
+      - site-user
+      - organization-site
+    depends_on:
+      - mysqldb
+      - user
+ 
+  user:
+    build: ./user-service
+    ports:
+      - "8081:8081"
+    networks:
+      - site-user
+      - organization-user
+      - organization-mysql
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:8
+    networks:
+      - organization-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=organizationdb
+
+networks:
+  organization-mysql:
+  site-user:
+  organization-user:
+  organization-site:
 ```
 **Step 4.** Running and testing applications: 
 
